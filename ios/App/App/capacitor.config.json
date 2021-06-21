@@ -1,0 +1,6 @@
+{
+	"appId": "com.capacitornuxt.app",
+	"appName": "capacitor-test",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
