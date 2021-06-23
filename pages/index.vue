@@ -21,6 +21,45 @@
           longitude:  {{ location.longitude }}
         </template>
       </p>
+
+      <br>
+
+      <input
+        v-model="input"
+        type="text"
+      >
+
+      <p>{{ input }}</p>
+
+      <br>
+
+      <select name="pets" id="pet-select">
+        <option value="">--Please choose an option--</option>
+        <option value="dog">Dog</option>
+        <option value="cat">Cat</option>
+        <option value="hamster">Hamster</option>
+        <option value="parrot">Parrot</option>
+        <option value="spider">Spider</option>
+        <option value="goldfish">Goldfish</option>
+      </select>
+
+      <br>
+      <br>
+
+      <p>Choose your monster's features:</p>
+
+      <div>
+        <input
+          id="scales"
+          type="checkbox"
+          name="scales"
+          checked
+        >
+        <label for="scales">Scales</label>
+      </div>
+
+      <br>
+
       <div class="links">
         <!-- <a
           href="https://nuxtjs.org/"
@@ -61,6 +100,7 @@
 export default {
   data () {
     return {
+      input: '',
       location: {
         latitude: '',
         longitude: ''
@@ -91,11 +131,11 @@ export default {
         await this.$LocalNotifications.schedule({
           notifications: [
             {
-              title: "On sale",
-              body: "Widgets are 10% off. Act fast!",
+              title: 'On sale',
+              body: 'Widgets are 10% off. Act fast!',
               id: 1,
               schedule: { at: new Date(Date.now() + 1000) },
-              actionTypeId: "",
+              actionTypeId: '',
               extra: null
             }
           ]
