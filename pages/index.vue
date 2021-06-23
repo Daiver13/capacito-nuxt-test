@@ -5,6 +5,22 @@
       <h1 class="title">
         capacitor-test
       </h1>
+
+      <p>
+        Location<br>
+        <template
+          v-if="!location.latitude"
+        >
+          loading ...
+        </template>
+
+        <template
+          v-else
+        >
+          latitude:  {{ location.latitude }}<br>
+          longitude:  {{ location.longitude }}
+        </template>
+      </p>
       <div class="links">
         <!-- <a
           href="https://nuxtjs.org/"
@@ -29,13 +45,65 @@
         >
           About
         </nuxt-link>
+
+        <button
+          class="button--green"
+          @click="handleNotification"
+        >
+          Local Notifications
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      location: {
+        latitude: '',
+        longitude: ''
+      }
+    }
+  },
+
+  mounted () {
+    this.getLocations()
+  },
+
+  methods: {
+    async getLocations () {
+      const coordinates = await this.$CapacitorGeolocation.getCurrentPosition()
+
+      this.location.latitude = coordinates.coords.latitude
+      this.location.longitude = coordinates.coords.longitude
+    },
+
+    async handleNotification () {
+      const isNot = await this.$LocalNotifications.areEnabled()
+
+      const canSend = await this.$LocalNotifications.requestPermissions()
+      console.log('can isNot', isNot)
+      console.log('can send', canSend)
+
+      if (canSend) {
+        await this.$LocalNotifications.schedule({
+          notifications: [
+            {
+              title: "On sale",
+              body: "Widgets are 10% off. Act fast!",
+              id: 1,
+              schedule: { at: new Date(Date.now() + 1000) },
+              actionTypeId: "",
+              extra: null
+            }
+          ]
+        })
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">
